@@ -1,0 +1,50 @@
+{% extends "templating.html" %}
+{% block header %}
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url({{url_for('static', filename='assets/img/home-bg.jpg')}})">
+        <title>{{ title }}</title>
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading">
+                            <h1>Daily Blogs</h1>
+                            <span class="subheading">A Daily Blog Website</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+{% endblock %}
+
+{% block maincontent %}
+        <!-- Main Content-->
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <!-- Post preview-->
+                    {% for posts in blogs %}
+                    <div class="post-preview">
+                        <a href="{{url_for('post', n=posts['id'])}}">
+                            <h2 class="post-title">{{ posts['title'] }}</h2>
+                            <h3 class="post-subtitle">{{ posts['subtitle'] }}</h3>
+                        </a>
+                        <p class="post-meta">
+                            Posted by
+                            <a href="#!">{{ posts.author.name }}</a>
+                            on {{posts["date"]}}
+                            {% if current_user.id==1%}
+                            <a href="{{url_for('delete', n=posts.id)}}">✘</a>
+                            {%endif%}
+                        </p>
+                    </div>
+                    <!-- Divider-->
+                    <hr class="my-4" />
+                    {% endfor %}
+                    <!-- Pager-->
+                    {% if current_user.id==1 %}
+                    <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="{{url_for('add')}}">Add New Posts</a></div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+{% endblock %}

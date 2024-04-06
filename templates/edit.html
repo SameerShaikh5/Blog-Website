@@ -1,0 +1,58 @@
+{% extends "templating.html" %}
+
+{% block header %}
+    <!-- Any header content specific to this page -->
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url({{url_for('static', filename='assets/img/home-bg.jpg')}})">
+        <title>{{ title }}</title>
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading">
+                            <h1>Edit Blog</h1>
+                            <span class="subheading"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+{% endblock %}
+
+{% block maincontent %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form action="{{ url_for('edit', n=n) }}" method="post">
+                    {{ form.hidden_tag() }}
+                    {{ ckeditor.load() }}
+                    <div class="mb-3">
+                        {{ form.title.label(class="form-label") }}
+                        {{ form.title(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.subtitle.label(class="form-label") }}
+                        {{ form.subtitle(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.author.label(class="form-label") }}
+                        {{ form.author(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.body.label(class="form-label") }}
+                        <textarea name="body" id="body" class="form-control"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        {{ form.img_url.label(class="form-label") }}
+                        {{ form.img_url(class="form-control") }}
+                    </div>
+                    <div class="text-center">
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+                {{ ckeditor.load() }}
+                {{ ckeditor.config(name='body') }}
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+{% endblock %}

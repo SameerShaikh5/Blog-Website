@@ -1,0 +1,69 @@
+{% extends "templating.html" %} {% block header %}
+<!-- Page Header-->
+<header class="masthead" style="background-image: url({{img_url}})">
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="post-heading">
+          <h1>{{ title }}</h1>
+          <h2 class="subheading">{{ subtitle }}</h2>
+          <span class="meta">
+            Posted by {{ author }}
+            <a href=""></a>
+            on {{date}}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+{% endblock %} {% block maincontent %}
+<!-- Post Content-->
+<article class="mb-4">
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <p>{{ content | safe}}</p>
+      </div>
+      <div class="d-flex justify-content-end mb-4">
+        <a
+          class="btn btn-primary text-uppercase"
+          href="{{url_for('edit', n=blog_id)}}"
+          >Edit Post</a
+        >
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form action="{{ url_for('post', n=blog_id) }}" method="post">
+                {{ form.hidden_tag() }}
+                {{ ckeditor.load() }}
+                <div class="mb-3">
+                    {{ form.comment_text.label(class="form-label") }}
+                    <textarea name="comment" id="comment" class="form-control"></textarea>
+                </div>             
+                <div class="">
+                    {{ form.submit(class="btn btn-primary") }}
+                </div>
+            </form>
+            {{ ckeditor.load() }}
+            {{ ckeditor.config(name='comment') }}
+            <div class="col-lg-8 col-md-10 mx-auto comment">
+                {% for comment in post.comments: %}
+                <ul class="commentList">
+                    <li>
+                        <div class="commenterImage">
+                            <img src="https://pbs.twimg.com/profile_images/744849215675838464/IH0FNIXk.jpg"/>
+                        </div>
+                        <div class="commentText">
+                            {{comment.text|safe}}
+                            <span class="date sub-text">{{comment.comment_author.name}}</span>
+
+                        </div>
+                    </li>
+                </ul>
+                {% endfor %}
+            </div>
+    </div>
+  </div>
+</article>
+{% endblock %}
