@@ -2,7 +2,7 @@ from flask import Flask, render_template,request, redirect, url_for, flash
 from smtplib import SMTP
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Integer, String, ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import relationship
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, EmailField, PasswordField
 from wtforms.validators import DataRequired, url
@@ -296,7 +296,8 @@ def logout():
     return redirect("/")
 
 
-if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
-    app.run(debug=True)
+with app.app_context():
+    db.create_all()
+
+# if __name__ == "__main__":
+#     app.run(debug=True)
