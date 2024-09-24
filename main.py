@@ -73,7 +73,6 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(100))
     
     posts = relationship("Blogs", back_populates="author")
-    
     comments = relationship("Comments", back_populates="comment_author")
     
 
@@ -251,7 +250,7 @@ def register():
         else:
             hashed_password = generate_password_hash(
                 password = form.Password.data,
-                method='pbkdf2',
+                method='pbkdf2:sha256',
                 salt_length=16
             )
             with app.app_context():
@@ -296,8 +295,8 @@ def logout():
     return redirect("/")
 
 
-with app.app_context():
-    db.create_all()
+# with app.app_context():
+#     db.create_all()
 
-# if __name__ == "__main__":
-#     app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
